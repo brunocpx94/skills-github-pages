@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aniversário 1 Ano Davi Fonseca Xavier</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d6f7ff;
+            background-image: url('https://www.melhoresdestinos.com.br/wp-content/uploads/2022/12/novidades-disney-2023-1-e1672413738267.webp'); /* Fundo temático */
+            background-size: 80%; /* Diminuir resolução */
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: 200px auto; /* Centraliza verticalmente */
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #ff6363;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+        input, select, button {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ff9f43;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #ff7849;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header img {
+            width: 150px;
+            margin-bottom: 10px;
+        }
+        .balloons {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+        .balloons img {
+            width: 300px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="balloons">
+        <img src="https://www.melhoresdestinos.com.br/wp-content/uploads/2022/12/novidades-disney-2023-1-e1672413738267.webp" alt="Baloes"> <!-- Balões animados -->
+    </div>
+    <div class="container">
+        <div class="header">
+            <img src="https://www.melhoresdestinos.com.br/wp-content/uploads/2022/12/novidades-disney-2023-1-e1672413738267.webp" alt="Disney Logo"> <!-- Disney -->
+            <h1>Aniversário 1 Ano <br>Davi Fonseca Xavier</h1>
+        </div>
+        <form id="confirmationForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite seu nome completo" required>
+
+            <label for="acompanhante">Acompanhante:</label>
+            <select id="acompanhante" name="acompanhante">
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+            </select>
+
+            <label for="crianca">Criança:</label>
+            <select id="crianca" name="crianca" onchange="toggleIdadeCampo(this)">
+                <option value="Não">Não</option>
+                <option value="Sim">Sim</option>
+            </select>
+
+            <div id="idadeDiv" style="display: none;">
+                <label for="idade_crianca">Idade da Criança:</label>
+                <input type="number" id="idade_crianca" name="idade_crianca" min="0" placeholder="Idade em anos">
+            </div>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleIdadeCampo(select) {
+            var idadeDiv = document.getElementById("idadeDiv");
+            if (select.value === "Sim") {
+                idadeDiv.style.display = "block";
+            } else {
+                idadeDiv.style.display = "none";
+            }
+        }
+
+        document.getElementById("confirmationForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evita o envio do formulário
+
+            const nome = document.getElementById("nome").value;
+            const acompanhante = document.getElementById("acompanhante").value;
+            const crianca = document.getElementById("crianca").value;
+            const idadeCrianca = document.getElementById("idade_crianca").value;
+
+            const dados = {
+                Nome: nome,
+                Acompanhante: acompanhante,
+                Crianca: crianca,
+                "Idade da Criança": crianca === "Sim" ? idadeCrianca : "N/A"
+            };
+
+            alert("Dados enviados: \n" + JSON.stringify(dados, null, 2));
+            console.log(dados);
+        });
+    </script>
+</body>
+</html>
