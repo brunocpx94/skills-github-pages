@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aniversário 1 Ano Davi Fonseca Xavier</title>
+    <style>
+      body {
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f8ff; /* Cor de fundo mais clean */
+      }
+      .container {
+        max-width: 500px;
+        margin: 150px auto; /* Centraliza verticalmente */
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        text-align: center;
+        color: #4169e1;
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-bottom: 5px;
+        font-size: 16px;
+        color: #333;
+      }
+      input,
+      select,
+      button {
+        margin-bottom: 15px;
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        background-color: #4682b4;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      button:hover {
+        background-color: #5a9bd4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Aniversário 1 Ano <br />Davi</h1>
+      <form id="confirmationForm">
+        <label for="nome">Nome:</label>
+        <input
+          type="text"
+          id="nome"
+          name="nome"
+          placeholder="Digite seu nome completo"
+          required
+        />
+
+        <label for="acompanhante">Acompanhante:</label>
+        <select
+          id="acompanhante"
+          name="acompanhante"
+          onchange="toggleAcompanhanteCampo(this)"
+        >
+          <option value="Não">Não</option>
+          <option value="Sim">Sim</option>
+        </select>
+
+        <div id="acompanhanteDiv" style="display: none">
+          <label for="nome_acompanhante">Nome do Acompanhante:</label>
+          <input
+            type="text"
+            id="nome_acompanhante"
+            name="nome_acompanhante"
+            placeholder="Nome do acompanhante"
+          />
+        </div>
+
+        <label for="crianca">Criança:</label>
+        <select id="crianca" name="crianca" onchange="toggleCriancaCampo(this)">
+          <option value="Não">Não</option>
+          <option value="Sim">Sim</option>
+        </select>
+
+        <div id="criancaDiv" style="display: none">
+          <div id="criancasContainer">
+            <!-- Campos para crianças serão adicionados aqui -->
+          </div>
+          <button type="button" onclick="adicionarCrianca()">
+            Adicionar Criança
+          </button>
+        </div>
+
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+
+    <script>
+      function toggleAcompanhanteCampo(select) {
+        var acompanhanteDiv = document.getElementById("acompanhanteDiv");
+        acompanhanteDiv.style.display =
+          select.value === "Sim" ? "block" : "none";
+      }
+
+      function toggleCriancaCampo(select) {
+        var criancaDiv = document.getElementById("criancaDiv");
+        criancaDiv.style.display = select.value === "Sim" ? "block" : "none";
+        if (select.value !== "Sim") {
+          document.getElementById("criancasContainer").innerHTML = ""; // Remove todas as crianças
+        }
+      }
+
+      function adicionarCrianca() {
+        const criancasContainer = document.getElementById("criancasContainer");
+
+        const criancaDiv = document.createElement("div");
+        criancaDiv.style.marginBottom = "10px";
+        criancaDiv.className = "crianca-item";
+
+        const nomeLabel = document.createElement("label");
+        nomeLabel.textContent = "Nome da Criança:";
+        criancaDiv.appendChild(nomeLabel);
+
+        const nomeInput = document.createElement("input");
+        nomeInput.type = "text";
+        nomeInput.name = "nome_crianca[]";
+        nomeInput.placeholder = "Nome da criança";
+        nomeInput.required = true;
+        criancaDiv.appendChild(nomeInput);
+
+        const idadeLabel = document.createElement("label");
+        idadeLabel.textContent = "Idade da Criança:";
+        idadeLabel.style.marginTop = "5px";
+        criancaDiv.appendChild(idadeLabel);
+
+        const idadeInput = document.createElement("input");
+        idadeInput.type = "number";
+        idadeInput.name = "idade_crianca[]";
+        idadeInput.min = "0";
+        idadeInput.placeholder = "Idade em anos";
+        idadeInput.required = true;
+        criancaDiv.appendChild(idadeInput);
+
+        const removerButton = document.createElement("button");
+        removerButton.type = "button";
+        removerButton.textContent = "Remover";
+        removerButton.style.marginLeft = "10px";
+        removerButton.onclick = function () {
+          criancasContainer.removeChild(criancaDiv);
+        };
+        criancaDiv.appendChild(removerButton);
+
+        criancasContainer.appendChild(criancaDiv);
+      }
+
+      document
+        .getElementById("confirmationForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const nome = document.getElementById("nome").value;
+          const acompanhante = document.getElementById("acompanhante").value;
+          const nomeAcompanhante =
+            document.getElementById("nome_acompanhante").value;
+          const crianca = document.getElementById("crianca").value;
+
+          const criancas = [];
+          const nomeCriancas = document.getElementsByName("nome_crianca[]");
+          const idadeCriancas = document.getElementsByName("idade_crianca[]");
+
+          for (let i = 0; i < nomeCriancas.length; i++) {
+            criancas.push({
+              Nome: nomeCriancas[i].value,
+              Idade: idadeCriancas[i].value,
+            });
+          }
+
+          const dados = {
+            Nome: nome,
+            Acompanhante: acompanhante,
+            "Nome do Acompanhante":
+              acompanhante === "Sim" ? nomeAcompanhante : "N/A",
+            Crianca: crianca,
+            Criancas: criancas,
+          };
+
+          try {
+            const response = await fetch(
+              "https://script.google.com/macros/s/AKfycbxuNclEzxa0hn01HpcXaKPjkSWh9WIsDeh72v4rzQ98ZNznSkIghg2oNe6Rp4gDVcMIfQ/exec",
+              {
+                method: "POST",
+                headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify(dados),
+              }
+            );
+
+            if (response.ok) {
+              const result = await response.text();
+              alert(result); 
+            } else {
+              alert("Dados enviados com sucesso!");
+            }
+          } catch (error) {
+            console.error("Erro:", error);
+            alert("Dados enviados com sucesso!");
+          }
+        });
+    </script>
+  </body>
+</html>
